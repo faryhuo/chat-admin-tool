@@ -46,6 +46,12 @@ export default [
     ],
   },
   {
+    path: '/token',
+    name: 'Token Management',
+    icon: 'smile',
+    component: './TokenManagement/TokenManagement'
+  },
+  {
     name: 'list.table-list',
     icon: 'table',
     path: '/list',
