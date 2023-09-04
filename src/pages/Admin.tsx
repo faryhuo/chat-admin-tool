@@ -3,7 +3,6 @@ import { useIntl, useModel } from '@umijs/max';
 import React from 'react';
 const Admin: React.FC = () => {
   const intl = useIntl();
-  const { counter } = useModel('counter');
 
   return (
     <PageContainer
@@ -11,9 +10,7 @@ const Admin: React.FC = () => {
         id: 'pages.admin.subPage.title',
         defaultMessage: 'This page can only be viewed by admin',
       })}
-    >
-      {counter}
-    </PageContainer>
+    ></PageContainer>
   );
 };
 
