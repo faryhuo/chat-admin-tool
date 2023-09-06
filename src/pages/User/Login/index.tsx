@@ -15,11 +15,11 @@ import {
   ProFormText,
 } from '@ant-design/pro-components';
 import { useEmotionCss } from '@ant-design/use-emotion-css';
-import { FormattedMessage, history, SelectLang, useIntl, useModel, Helmet } from '@umijs/max';
+import { FormattedMessage, Helmet, history, SelectLang, useIntl, useModel } from '@umijs/max';
 import { Alert, message, Tabs } from 'antd';
-import Settings from '../../../../config/defaultSettings';
 import React, { useState } from 'react';
 import { flushSync } from 'react-dom';
+import Settings from '../../../../config/defaultSettings';
 import UserProfile from '../../../services/UserProfile';
 
 const ActionIcons = () => {
@@ -83,10 +83,10 @@ const LoginMessage: React.FC<{
   );
 };
 
-const Login: React.FC = () => {
+const Login: React.FC<> = () => {
   const [userLoginState, setUserLoginState] = useState<API.LoginResult>({});
   const [type, setType] = useState<string>('account');
-  const { initialState, setInitialState } = useModel('@@initialState');
+  const { setInitialState } = useModel('@@initialState');
 
   const containerClassName = useEmotionCss(() => {
     return {
@@ -104,7 +104,7 @@ const Login: React.FC = () => {
 
   const fetchUserInfo = async () => {
     await UserProfile.loginByToken();
-    const userInfo =UserProfile.getUserInfo();
+    const userInfo = UserProfile.getUserInfo();
     console.log(userInfo);
     if (userInfo) {
       flushSync(() => {
@@ -118,8 +118,8 @@ const Login: React.FC = () => {
 
   const handleSubmit = async (values: API.LoginParams) => {
     try {
-      const msg = await UserProfile.login(values.username,values.password)
-      if (msg===true) {
+      const msg = await UserProfile.login(values.username, values.password);
+      if (msg === true) {
         const defaultLoginSuccessMessage = intl.formatMessage({
           id: 'pages.login.success',
           defaultMessage: '登录成功！',

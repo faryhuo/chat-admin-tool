@@ -29,10 +29,27 @@ export default [
     component: './Welcome',
   },
   {
-    path: '/token',
-    name: 'TokenManagement',
+    path: '/user/management',
+    name: 'user',
     icon: 'smile',
-    component: './TokenManagement/TokenManagement'
+    component: './UserManagement',
+  },
+  {
+    path: '/token',
+    name: 'token',
+    icon: 'smile',
+    routes: [
+      {
+        path: '/token/management',
+        name: 'management',
+        component: './TokenManagement',
+      },
+      {
+        path: '/token/usage',
+        name: 'usage',
+        component: './TokenUsage',
+      },
+    ],
   },
   {
     path: '/',
