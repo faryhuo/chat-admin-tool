@@ -1,5 +1,4 @@
 import Footer from '@/components/Footer';
-import { login } from '@/services/ant-design-pro/api';
 import { getFakeCaptcha } from '@/services/ant-design-pro/login';
 import {
   AlipayCircleOutlined,
@@ -21,6 +20,7 @@ import { Alert, message, Tabs } from 'antd';
 import Settings from '../../../../config/defaultSettings';
 import React, { useState } from 'react';
 import { flushSync } from 'react-dom';
+import UserProfile from '../../../services/UserProfile';
 
 const ActionIcons = () => {
   const langClassName = useEmotionCss(({ token }) => {
@@ -103,7 +103,9 @@ const Login: React.FC = () => {
   const intl = useIntl();
 
   const fetchUserInfo = async () => {
-    const userInfo = await initialState?.fetchUserInfo?.();
+    await UserProfile.loginByToken();
+    const userInfo =UserProfile.getUserInfo();
+    console.log(userInfo);
     if (userInfo) {
       flushSync(() => {
         setInitialState((s) => ({
@@ -116,15 +118,14 @@ const Login: React.FC = () => {
 
   const handleSubmit = async (values: API.LoginParams) => {
     try {
-      // 登录
-      const msg = await login({ ...values, type });
-      if (msg.status === 'ok') {
+      const msg = await UserProfile.login(values.username,values.password)
+      if (msg===true) {
         const defaultLoginSuccessMessage = intl.formatMessage({
           id: 'pages.login.success',
           defaultMessage: '登录成功！',
         });
+        fetchUserInfo();
         message.success(defaultLoginSuccessMessage);
-        await fetchUserInfo();
         const urlParams = new URL(window.location.href).searchParams;
         history.push(urlParams.get('redirect') || '/');
         return;

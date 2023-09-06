@@ -152,4 +152,7 @@ export default defineConfig({
     strategy: 'normal',
   },
   requestRecord: {},
+  publicPath: '/admin/',
+  base: '/admin/',
+  history:{type:"hash"}
 });

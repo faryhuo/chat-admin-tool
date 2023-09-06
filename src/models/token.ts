@@ -1,4 +1,5 @@
 import { useModel } from '@umijs/max';
+ import dayjs from 'dayjs';
 import { useCallback, useState } from 'react';
 export interface IToken {
   id: number;
@@ -81,7 +82,7 @@ export default () => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        enable: enable,
+        enable: !enable,
         id: tokenId,
       })
     }).then(response => {
@@ -106,5 +107,61 @@ export default () => {
       })
   }
 
-  return { fetchToken, data, tokens,testToken,updateStatus,deleteToken, setTokens,updateToken,updateEnable };
+  const getAccessToken=(username:string,pwd:string)=>{
+    return fetch("http://sg.fary.chat:8111/chatgpt/login", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body:JSON.stringify({
+        "username": username,
+        "password": pwd
+      })
+    }).then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+  }
+
+  const addToken=(token:IToken)=>{
+    return fetch(tokenUrl+"/", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body:JSON.stringify({
+        "channel": token.channel,
+        "expireDate": token.expireDate?dayjs(token.expireDate).format("YYYY-MM-DD"):null,
+        "model":token.name,
+        "token":token.token
+      })
+    }).then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+  }
+
+  
+  const refresh=()=>{
+    return fetch(tokenUrl+"/refresh", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      }).then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return fetchToken();
+      })
+  }
+
+  return { fetchToken, data, tokens,testToken,updateStatus,deleteToken,
+     setTokens,updateToken,updateEnable ,refresh,getAccessToken,addToken };
 };
+
+

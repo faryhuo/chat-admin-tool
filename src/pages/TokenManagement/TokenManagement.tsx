@@ -1,17 +1,21 @@
 import { PageContainer } from '@ant-design/pro-components';
 import { useIntl, useModel } from '@umijs/max';
-import { Button,  Table, Tag, Tabs, message, Popconfirm } from 'antd';
+import { Button,  Table, Tag, Tabs, message, Popconfirm, Modal } from 'antd';
 import React, { useState } from 'react';
 import dayjs from 'dayjs';
 import './TokenManagement.css';
 import { useEffect } from 'react';
 import { IToken } from '@/models/token';
+import TokenDetails from '@/components/TokenDetails';
+
+
 
 const TokenManagement: React.FC = () => {
   const intl = useIntl();
   const [key, setKey] = useState('gpt');
-  const { fetchToken, tokens, testToken, updateStatus, deleteToken, setTokens, updateToken,updateEnable} = useModel('token');
+  const { fetchToken, tokens, testToken,refresh, updateStatus, deleteToken, setTokens, updateToken,updateEnable} = useModel('token');
   const [messageApi, contextHolder] = message.useMessage();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const test=(id)=>{
     testToken(id).then((response)=>{
@@ -22,9 +26,27 @@ const TokenManagement: React.FC = () => {
           updateStatus(false,id);
           messageApi.error("Test fail")
        }
+      
     }).catch(()=>{
       updateStatus(false,id);
       messageApi.error("Test fail")
+    })
+  }
+
+  const testAll=()=>{
+    getTokens().forEach(token=>{
+      const id=token.id;
+      testToken(id).then((response)=>{
+        if(response.data){
+           updateStatus(true,id);
+        }else{
+           updateStatus(false,id);
+        }
+        messageApi.error("Test success")
+     }).catch(()=>{
+       updateStatus(false,id);
+       messageApi.error("Test fail")
+     })
     })
   }
 
@@ -61,7 +83,7 @@ const TokenManagement: React.FC = () => {
     // },
     {
       title: 'Model Name',
-      dataIndex: 'name',
+      dataIndex: 'name'
     },
     {
       title: 'Token',
@@ -110,18 +132,18 @@ const TokenManagement: React.FC = () => {
       render: (_: any, record: IToken) => {
         return (
           <span>
-            <Button type='primary' className="action-btn" onClick={()=>{
+            <Button key={1} type='primary' className="action-btn" onClick={()=>{
               test(record.id);
             }}>Test</Button>
-            <Button className="action-btn" onClick={()=>triggerEnable(record.id,record.enable)}>{record.enable?"Disabled":"Enable"}</Button>
-            <Popconfirm
+            <Button  key={2} className="action-btn" onClick={()=>triggerEnable(record.id,record.enable)}>{record.enable?"Disabled":"Enable"}</Button>
+            <Popconfirm  key={3}
               title="Delete the task"
               description="Are you sure to delete this task?"
               onConfirm={()=>deleteFun(record.id)}
               okText="Yes"
               cancelText="No"
             >
-            <Button danger className="action-btn">
+            <Button  key={4} danger className="action-btn">
               Delete
             </Button>            
             </Popconfirm>
@@ -141,17 +163,25 @@ const TokenManagement: React.FC = () => {
   useEffect(() => {
     fetchToken();
   }, []);
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
 
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
   return (
     <PageContainer
-      content={intl.formatMessage({
-        id: 'pages.token.management.title',
-        defaultMessage: 'Token Management',
-      })}
     >
       <div className="token-management-page">
+        <Modal  title="Add Token" open={isModalOpen} onCancel={handleCancel} footer={false}>
+          <TokenDetails handleCancel={handleCancel}></TokenDetails>
+        </Modal>
         <div className="action-buttons">
-          <Button type="primary">Add Token</Button>
+          <Button type="primary" className="action-btn" onClick={showModal}>Add Token</Button>
+          <Button type="primary" className="action-btn" onClick={refresh}>Refresh</Button>
+          <Button type="primary" className="action-btn"  onClick={()=>testAll()}>Test All</Button>
+
         </div>
         <Tabs
           onChange={(e) => setKey(e)}
@@ -170,7 +200,6 @@ const TokenManagement: React.FC = () => {
           <Table
             columns={columns}
             dataSource={getTokens()}
-            rowClassName="editable-row"
             bordered
           ></Table>
         </div>
