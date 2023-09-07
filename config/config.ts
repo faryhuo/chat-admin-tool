@@ -153,6 +153,6 @@ export default defineConfig({
   },
   requestRecord: {},
   publicPath: '/admin/',
-  base: '/admin/',
-  history:{type:"hash"}
+  // base: '/admin/',
+  history: { type: 'hash' },
 });
