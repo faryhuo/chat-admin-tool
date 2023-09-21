@@ -29,25 +29,104 @@ export default [
     component: './Welcome',
   },
   {
+    path: '/dashborad',
+    name: 'dashboard',
+    icon: 'dashboard'
+  },
+  {
     path: '/user/management',
     name: 'user',
-    icon: 'smile',
+    icon: 'user',
     component: './UserManagement',
   },
   {
-    path: '/token',
-    name: 'token',
-    icon: 'smile',
+    path: '/chat',
+    name: 'chat',
+    icon: 'WechatOutlined',
     routes: [
       {
-        path: '/token/management',
+        path: '/chat/role',
+        name: 'role'
+      },
+      {
+        path: '/chat/management',
         name: 'management',
         component: './TokenManagement',
       },
       {
-        path: '/token/usage',
+        path: '/chat/usage',
         name: 'usage',
         component: './TokenUsage',
+      },
+    ],
+  },
+  {
+    path: '/image',
+    name: 'image',
+    icon: 'PictureOutlined',
+    routes: [
+      {
+        path: '/image/setting',
+        name: 'setting',
+        component: './ImageManagement',
+      },
+      {
+        path: '/image/usage',
+        name: 'usage',
+        component: './TokenUsage',
+      },
+    ],
+  },
+  {
+    path: '/marketing',
+    name: 'marketing',
+    icon: 'TransactionOutlined',
+    routes: [
+      {
+        path: '/marketing/signup',
+        name: 'signup',
+        component: './Marketing/SignUp'
+      },
+      {
+        path: '/marketing/share',
+        name: 'share'
+      },
+      {
+        path: '/marketing/deposit',
+        name: 'deposit'
+      },
+    ],
+  },
+  {
+    path: '/order/management',
+    name: 'order',
+    icon: 'ShoppingCartOutlined',
+  },
+  {
+    path: '/feedback',
+    name: 'feedback',
+    icon: 'MailOutlined',
+  },
+  {
+    path: '/system',
+    name: 'system',
+    icon: 'LaptopOutlined',
+    routes: [
+      {
+        path: '/system/store',
+        name: 'store'
+      },
+      {
+        path: '/system/agreement',
+        name: 'agreement'
+      },
+      {
+        path: '/system/notice',
+        name: 'notice'
+      },
+      {
+        path: '/system/sms',
+        name: 'sms'
       },
     ],
   },

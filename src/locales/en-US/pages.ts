@@ -25,5 +25,9 @@ export default {
   'pages.login.registerAccount': 'Register Account',
   'pages.welcome.link': 'Welcome',
   'pages.welcome.alertMessage': 'Faster and stronger heavy-duty components have been released.',
-  'pages.token.title.TokenManagement':"Token Management"
+  'pages.token.title.TokenManagement':"Token Management",
+  'pages.marketing.signup.status':'功能状态',
+  'pages.marketing.signup.gpt4_amount':'GPT 对话次数',
+  'pages.marketing.signup.mj_amount':'绘画次数',
+  'pages.marketing.signup.save':'Save'
 };

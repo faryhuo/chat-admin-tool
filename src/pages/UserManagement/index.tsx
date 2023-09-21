@@ -1,6 +1,6 @@
 import { PageContainer } from '@ant-design/pro-components';
 import { useModel } from '@umijs/max';
-import { Table } from 'antd';
+import { Card, Table } from 'antd';
 import React, { useEffect } from 'react';
 import './index.css';
 
@@ -23,26 +23,16 @@ const UserManagement: React.FC = () => {
     {
       title: 'Avatar',
       dataIndex: 'avatar',
-    },
-    {
-      title: 'Gender',
-      dataIndex: 'gender',
-    },
-    {
-      title: 'Signature',
-      dataIndex: 'sign',
-    },
-    {
-      title: 'Birth',
-      dataIndex: 'birth',
-    },
+    }   
   ];
 
   return (
     <PageContainer>
       <div className="user-management-page">
         <div className="user-list">
-          <Table columns={columns} dataSource={data} bordered></Table>
+          <Card>
+            <Table columns={columns} dataSource={data} bordered></Table>
+          </Card>
         </div>
       </div>
     </PageContainer>

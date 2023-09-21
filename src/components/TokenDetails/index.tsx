@@ -1,11 +1,12 @@
 import { useModel } from '@umijs/max';
 import { Button, DatePicker, Form, Input, Radio, Select } from 'antd';
+import dayjs from 'dayjs';
 import React, { useState } from 'react';
 type Props = {
   handleCancel: () => void;
 };
 const TokenDetails: React.FC<Props> = ({ handleCancel }) => {
-  const { addToken } = useModel('token');
+  const { addToken,getAccessToken } = useModel('token');
 
   const channelOptions = [
     {
@@ -32,6 +33,7 @@ const TokenDetails: React.FC<Props> = ({ handleCancel }) => {
     },
   ];
 
+
   const typeOptions = [
     { label: 'Access Token', value: 'token' },
     { label: 'API key', value: 'key' },
@@ -42,6 +44,15 @@ const TokenDetails: React.FC<Props> = ({ handleCancel }) => {
   const [pwd, setPwd] = useState('');
 
   const [form] = Form.useForm();
+
+  
+  const setKeyByUsername=()=>{
+    getAccessToken(username,pwd).then((responseData)=>{
+      console.log(responseData);
+      form.setFieldValue("token",responseData.accessToken);
+      form.setFieldValue("expireDate",dayjs(responseData.expires));
+    })
+  }
 
   const onFinish = (values: any) => {
     console.log('Received values of form: ', values);
@@ -78,14 +89,14 @@ const TokenDetails: React.FC<Props> = ({ handleCancel }) => {
         </Form.Item>
         {type === 'token' && (
           <>
-            <Form.Item label="User name" name="username">
+            <Form.Item label="User name" name="username" key={1}>
               <Input value={username} onChange={(e) => setUsername(e.target.value)}></Input>
             </Form.Item>
-            <Form.Item label="Password" name="password">
+            <Form.Item label="Password" name="password" key={2}>
               <Input type="password" value={pwd} onChange={(e) => setPwd(e.target.value)}></Input>
             </Form.Item>
-            <Form.Item wrapperCol={{ offset: 8 }}>
-              <Button onClick={() => {}}>Get Access Token</Button>
+            <Form.Item wrapperCol={{ offset: 8 }} key={3}>
+              <Button onClick={setKeyByUsername}>Get Access Token</Button>
             </Form.Item>
           </>
         )}
@@ -96,7 +107,7 @@ const TokenDetails: React.FC<Props> = ({ handleCancel }) => {
           <Input.TextArea autoSize={{ minRows: 3 }}></Input.TextArea>
         </Form.Item>
         <Form.Item label="Expire Date" name="expireDate">
-          <DatePicker />
+          <DatePicker/>
         </Form.Item>
         <Form.Item wrapperCol={{ offset: 8 }}>
           <Button type="primary" htmlType="submit">

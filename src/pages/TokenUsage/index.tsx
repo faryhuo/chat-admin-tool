@@ -1,6 +1,6 @@
 import { PageContainer } from '@ant-design/pro-components';
 import { useModel } from '@umijs/max';
-import { Table, Tabs, Typography } from 'antd';
+import { Card, Space, Table, Tabs, Typography } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { ITokenUsage } from '../../models/tokenUsage';
 import './index.css';
@@ -116,53 +116,61 @@ const TokenManagement: React.FC = () => {
   return (
     <PageContainer>
       <div className="token-usage-page">
-        <Tabs
-          onChange={(e) => changeKey(e)}
-          items={[
-            {
-              key: 'all',
-              label: 'All',
-            },
-            {
-              key: 'year',
-              label: 'Year',
-            },
-            {
-              key: 'month',
-              label: 'Month',
-            },
-            {
-              key: 'day',
-              label: 'Day',
-            },
-          ]}
-        ></Tabs>
+        <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
+          <Card>
+            <Tabs
+              onChange={(e) => changeKey(e)}
+              items={[
+                {
+                  key: 'all',
+                  label: 'All',
+                },
+                {
+                  key: 'year',
+                  label: 'Year',
+                },
+                {
+                  key: 'month',
+                  label: 'Month',
+                },
+                {
+                  key: 'day',
+                  label: 'Day',
+                },
+              ]}
+            ></Tabs>
+          </Card>
 
-        <div className="data-list">
-          <Table
-            columns={columns as any}
-            dataSource={getDataBykey(key)}
-            bordered
-            summary={(pageData) => {
-              let total = 0;
+          <Card>
+            <div className="data-list">
+              <Table
+                columns={columns as any}
+                dataSource={getDataBykey(key)}
+                bordered
+                summary={(pageData) => {
+                  let total = 0;
 
-              pageData.forEach(({ inputTokenFree, outputTokenFree }) => {
-                total += inputTokenFree + outputTokenFree;
-              });
+                  pageData.forEach(({ inputTokenFree, outputTokenFree }) => {
+                    total += inputTokenFree + outputTokenFree;
+                  });
 
-              return (
-                <>
-                  <Table.Summary.Row>
-                    <Table.Summary.Cell index={0}>Total</Table.Summary.Cell>
-                    <Table.Summary.Cell index={1}>
-                      <Text type="danger">{total.toFixed(2)}</Text>
-                    </Table.Summary.Cell>
-                  </Table.Summary.Row>
-                </>
-              );
-            }}
-          ></Table>
-        </div>
+                  return (
+                    <>
+                      <Table.Summary.Row>
+                        <Table.Summary.Cell index={0}>Total</Table.Summary.Cell>
+                        <Table.Summary.Cell index={1}>
+                          <Text type="danger">{total.toFixed(2)}</Text>
+                        </Table.Summary.Cell>
+                      </Table.Summary.Row>
+                    </>
+                  );
+                }}
+              ></Table>
+            </div>
+          </Card>
+        </Space>
+
+
       </div>
     </PageContainer>
   );

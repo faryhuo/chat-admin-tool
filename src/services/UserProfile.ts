@@ -206,6 +206,10 @@ class UserProflie implements IUserProflie {
             const data = response.data;
             console.log(response.data);
             if (data.statusCode === 0) {
+                if(data.data.group!=="admin"){
+                    localStorage[USER_TOKEN_KEY] = "";
+                    return;
+                }
                 this.isLogin = true;
                 this.userName = data.data.name;
                 this.userId = data.data.userId;

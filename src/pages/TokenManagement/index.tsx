@@ -2,7 +2,7 @@ import TokenDetails from '@/components/TokenDetails';
 import { IToken } from '@/models/token';
 import { PageContainer } from '@ant-design/pro-components';
 import { useModel } from '@umijs/max';
-import { Button, message, Modal, Popconfirm, Table, Tabs, Tag } from 'antd';
+import { Button, Card, message, Modal, Popconfirm, Space, Table, Tabs, Tag } from 'antd';
 import dayjs from 'dayjs';
 import React, { useEffect, useState } from 'react';
 import './index.css';
@@ -195,36 +195,44 @@ const TokenManagement: React.FC = () => {
   return (
     <PageContainer>
       <div className="token-management-page">
-        <Modal title="Add Token" open={isModalOpen} onCancel={handleCancel} footer={false}>
-          <TokenDetails handleCancel={handleCancel}></TokenDetails>
-        </Modal>
-        <div className="action-buttons">
-          <Button type="primary" className="action-btn" onClick={showModal}>
-            Add Token
-          </Button>
-          <Button type="primary" className="action-btn" onClick={refresh}>
-            Refresh
-          </Button>
-          <Button type="primary" className="action-btn" onClick={() => testAll()}>
-            Test All
-          </Button>
-        </div>
-        <Tabs
-          onChange={(e) => setKey(e)}
-          items={[
-            {
-              key: 'gpt',
-              label: 'GPT',
-            },
-            {
-              key: 'other',
-              label: 'other',
-            },
-          ]}
-        ></Tabs>
-        <div className="token-list">
-          <Table columns={columns} dataSource={getTokens()} bordered></Table>
-        </div>
+      <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
+
+        <Card>
+          <Modal title="Add Token" open={isModalOpen} onCancel={handleCancel} footer={false}>
+            <TokenDetails handleCancel={handleCancel}></TokenDetails>
+          </Modal>
+          <div className="action-buttons">
+            <Button type="primary" className="action-btn" onClick={showModal}>
+              Add Token
+            </Button>
+            <Button type="primary" className="action-btn" onClick={refresh}>
+              Refresh
+            </Button>
+            <Button type="primary" className="action-btn" onClick={() => testAll()}>
+              Test All
+            </Button>
+          </div>
+        </Card>
+
+        <Card>
+          <Tabs
+            onChange={(e) => setKey(e)}
+            items={[
+              {
+                key: 'gpt',
+                label: 'GPT',
+              },
+              {
+                key: 'other',
+                label: 'other',
+              },
+            ]}
+          ></Tabs>
+          <div className="token-list">
+            <Table columns={columns} dataSource={getTokens()} bordered></Table>
+          </div>
+        </Card>
+        </Space>
         {contextHolder}
       </div>
     </PageContainer>

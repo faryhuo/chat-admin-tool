@@ -24,5 +24,9 @@ export default {
   'pages.login.registerAccount': '注册账户',
   'pages.welcome.link': '欢迎使用',
   'pages.welcome.alertMessage': '更快更强的重型组件，已经发布。',
-  'pages.token.title.TokenManagement':"Token Management"
+  'pages.token.title.TokenManagement':"Token Management",
+  'pages.marketing.signup.status':'功能状态',
+  'pages.marketing.signup.gpt4_amount':'GPT 对话次数',
+  'pages.marketing.signup.mj_amount':'绘画次数',
+  'pages.marketing.signup.save':'Save'
 };
