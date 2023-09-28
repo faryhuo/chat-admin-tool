@@ -145,16 +145,16 @@ export default defineConfig({
     {
       requestLibPath: "import { request } from '@umijs/max'",
       // 或者使用在线的版本
-      schemaPath: "https://fary.chat:8555/chat-admin-service/v2/api-docs",
+      schemaPath: 'https://fary.chat:8555/chat-admin-service/v2/api-docs',
       mock: false,
-      projectName: 'admin'
-    }
+      projectName: 'admin',
+    },
   ],
   mfsu: {
     strategy: 'normal',
   },
   requestRecord: {},
   publicPath: '/admin/',
-  // base: '/admin/',
+  // base: '/3/',
   history: { type: 'hash' },
 });
