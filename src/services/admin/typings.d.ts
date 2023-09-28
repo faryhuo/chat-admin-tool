@@ -8,6 +8,11 @@ declare namespace API {
     settingValue?: string;
   };
 
+  type CategoryUpdateRequest = {
+    category?: string;
+    configs?: Record<string, any>;
+  };
+
   type Error = {
     errorCode?: number;
     message?: string;
@@ -15,7 +20,7 @@ declare namespace API {
 
   type getSettingByCategoryUsingGETParams = {
     /** category */
-    category?: string;
+    category: string;
   };
 
   type getSettingByKeyUsingGETParams = {
@@ -55,7 +60,7 @@ declare namespace API {
     /** key */
     key: string;
     /** value */
-    value?: string;
+    value: string;
   };
 
   type ZhiShiYunApiInfo = {

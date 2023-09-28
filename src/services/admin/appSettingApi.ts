@@ -1,8 +1,7 @@
 // @ts-ignore
 /* eslint-disable */
 import { request } from '@umijs/max';
-
-const hostName="https://fary.chat:8555/chat-admin-service";
+const hostName = 'https://fary.chat:8555/chat-admin-service';
 
 /** getSettingByCategory GET /app/setting */
 export async function getSettingByCategoryUsingGET(
@@ -10,11 +9,26 @@ export async function getSettingByCategoryUsingGET(
   params: API.getSettingByCategoryUsingGETParams,
   options?: { [key: string]: any },
 ) {
-  return request<API.JsonResponseListAppSetting_>(hostName+'/app/setting', {
+  return request<API.JsonResponseListAppSetting_>(hostName + '/app/setting', {
     method: 'GET',
     params: {
       ...params,
     },
+    ...(options || {}),
+  });
+}
+
+/** updateSettingByCategory PUT /app/setting */
+export async function updateSettingByCategoryUsingPUT(
+  body: API.CategoryUpdateRequest,
+  options?: { [key: string]: any },
+) {
+  return request<API.JsonResponseBoolean_>(hostName + '/app/setting', {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
     ...(options || {}),
   });
 }
@@ -26,7 +40,7 @@ export async function getSettingByKeyUsingGET(
   options?: { [key: string]: any },
 ) {
   const { key: param0, ...queryParams } = params;
-  return request<API.JsonResponseAppSetting_>(hostName+`/app/setting/${param0}`, {
+  return request<API.JsonResponseAppSetting_>(hostName + `/app/setting/${param0}`, {
     method: 'GET',
     params: { ...queryParams },
     ...(options || {}),
@@ -40,7 +54,7 @@ export async function updateSettingByKeyUsingPUT(
   options?: { [key: string]: any },
 ) {
   const { key: param0, ...queryParams } = params;
-  return request<API.JsonResponseBoolean_>(hostName+`/app/setting/${param0}`, {
+  return request<API.JsonResponseBoolean_>(hostName + `/app/setting/${param0}`, {
     method: 'PUT',
     params: {
       ...queryParams,

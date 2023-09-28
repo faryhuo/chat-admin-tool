@@ -76,7 +76,7 @@ export default defineConfig({
    * @name layout 插件
    * @doc https://umijs.org/docs/max/layout-menu
    */
-  title: 'Ant Design Pro',
+  title: 'Chat AI Admin',
   layout: {
     locale: true,
     ...defaultSettings,
@@ -155,6 +155,6 @@ export default defineConfig({
   },
   requestRecord: {},
   publicPath: '/admin/',
-  // base: '/3/',
+  // base: '/admin/',
   history: { type: 'hash' },
 });
