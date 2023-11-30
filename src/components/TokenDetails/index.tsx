@@ -6,7 +6,7 @@ type Props = {
   handleCancel: () => void;
 };
 const TokenDetails: React.FC<Props> = ({ handleCancel }) => {
-  const { addToken,getAccessToken } = useModel('token');
+  const { addToken, getAccessToken } = useModel('token');
 
   const channelOptions = [
     {
@@ -33,10 +33,9 @@ const TokenDetails: React.FC<Props> = ({ handleCancel }) => {
     },
   ];
 
-
   const typeOptions = [
-    { label: 'Access Token', value: 'token' },
-    { label: 'API key', value: 'key' },
+    { label: 'Access Token', value: 'ACCESS-TOKEN' },
+    { label: 'API key', value: 'API-KEY' },
   ];
 
   const [type, setType] = useState('token');
@@ -45,14 +44,13 @@ const TokenDetails: React.FC<Props> = ({ handleCancel }) => {
 
   const [form] = Form.useForm();
 
-  
-  const setKeyByUsername=()=>{
-    getAccessToken(username,pwd).then((responseData)=>{
+  const setKeyByUsername = () => {
+    getAccessToken(username, pwd).then((responseData) => {
       console.log(responseData);
-      form.setFieldValue("token",responseData.accessToken);
-      form.setFieldValue("expireDate",dayjs(responseData.expires));
-    })
-  }
+      form.setFieldValue('token', responseData.accessToken);
+      form.setFieldValue('expireDate', dayjs(responseData.expires));
+    });
+  };
 
   const onFinish = (values: any) => {
     console.log('Received values of form: ', values);
@@ -87,7 +85,7 @@ const TokenDetails: React.FC<Props> = ({ handleCancel }) => {
             }}
           />
         </Form.Item>
-        {type === 'token' && (
+        {type === 'ACCESS-TOKEN' && (
           <>
             <Form.Item label="User name" name="username" key={1}>
               <Input value={username} onChange={(e) => setUsername(e.target.value)}></Input>
@@ -107,7 +105,7 @@ const TokenDetails: React.FC<Props> = ({ handleCancel }) => {
           <Input.TextArea autoSize={{ minRows: 3 }}></Input.TextArea>
         </Form.Item>
         <Form.Item label="Expire Date" name="expireDate">
-          <DatePicker/>
+          <DatePicker />
         </Form.Item>
         <Form.Item wrapperCol={{ offset: 8 }}>
           <Button type="primary" htmlType="submit">

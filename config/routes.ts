@@ -31,7 +31,7 @@ export default [
   {
     path: '/dashborad',
     name: 'dashboard',
-    icon: 'dashboard'
+    icon: 'dashboard',
   },
   {
     path: '/user/management',
@@ -46,7 +46,7 @@ export default [
     routes: [
       {
         path: '/chat/role',
-        name: 'role'
+        name: 'role',
       },
       {
         path: '/chat/management',
@@ -85,15 +85,15 @@ export default [
       {
         path: '/marketing/signup',
         name: 'signup',
-        component: './Marketing/SignUp'
+        component: './Marketing/SignUp',
       },
       {
         path: '/marketing/share',
-        name: 'share'
+        name: 'share',
       },
       {
         path: '/marketing/deposit',
-        name: 'deposit'
+        name: 'deposit',
       },
     ],
   },
@@ -114,19 +114,31 @@ export default [
     routes: [
       {
         path: '/system/store',
-        name: 'store'
+        name: 'store',
       },
       {
         path: '/system/agreement',
-        name: 'agreement'
+        name: 'agreement',
       },
       {
         path: '/system/notice',
-        name: 'notice'
+        name: 'notice',
       },
       {
         path: '/system/sms',
-        name: 'sms'
+        name: 'sms',
+      },
+      {
+        path: 'http://fary.chat:9000',
+        name: 'container',
+      },
+      {
+        path: 'https://fary.chat:8888',
+        name: 'eureka',
+      },
+      {
+        path: 'https://analytics.google.com/analytics/web',
+        name: 'analytics',
       },
     ],
   },
