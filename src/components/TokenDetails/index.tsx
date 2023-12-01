@@ -48,7 +48,10 @@ const TokenDetails: React.FC<Props> = ({ handleCancel }) => {
     getAccessToken(username, pwd).then((responseData) => {
       console.log(responseData);
       form.setFieldValue('token', responseData.accessToken);
-      form.setFieldValue('expireDate', dayjs(responseData.expires));
+      form.setFieldValue(
+        'expireDate',
+        dayjs().add(responseData.expires_in / 60 / 60 / 24 - 1, 'D'),
+      );
     });
   };
 

@@ -17,6 +17,7 @@ const TokenManagement: React.FC = () => {
     updateStatus,
     deleteToken,
     setTokens,
+    triggerToken,
     updateToken,
     updateEnable,
   } = useModel('token');
@@ -64,7 +65,7 @@ const TokenManagement: React.FC = () => {
   };
 
   const triggerEnable = (id: number, enable: boolean) => {
-    updateToken(id, enable)
+    triggerToken(id, enable)
       .then((response) => {
         if (response.data) {
           updateEnable(!enable, id);
@@ -170,6 +171,19 @@ const TokenManagement: React.FC = () => {
             >
               Test
             </Button>
+
+            {record.type === 'ACCESS-TOKEN' && (
+              <Popconfirm
+                key={5}
+                title="update token"
+                description="Are you sure to update this token?"
+                onConfirm={() => updateToken(record.id)}
+                okText="Yes"
+                cancelText="No"
+              >
+                <Button className="action-btn">Update</Button>
+              </Popconfirm>
+            )}
             <Button
               key={2}
               className="action-btn"

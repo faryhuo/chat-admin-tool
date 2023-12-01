@@ -82,7 +82,7 @@ export default () => {
     });
   };
 
-  const updateToken = (tokenId: number, enable: boolean) => {
+  const triggerToken = (tokenId: number, enable: boolean) => {
     return fetch(tokenUrl + '/', {
       method: 'PUT',
       headers: {
@@ -90,6 +90,23 @@ export default () => {
       },
       body: JSON.stringify({
         enable: !enable,
+        id: tokenId,
+      }),
+    }).then((response) => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json(); // Parse the response as JSON
+    });
+  };
+
+  const updateToken = (tokenId: number) => {
+    return fetch(tokenUrl + '/', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
         id: tokenId,
       }),
     }).then((response) => {
@@ -115,7 +132,7 @@ export default () => {
   };
 
   const getAccessToken = (username: string, pwd: string) => {
-    return fetch('http://sg.fary.chat:8111/chatgpt/login', {
+    return fetch('http://sg.fary.chat:8112/api_123_chat/api/auth/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -178,6 +195,7 @@ export default () => {
     deleteToken,
     setTokens,
     updateToken,
+    triggerToken,
     updateEnable,
     refresh,
     getAccessToken,
