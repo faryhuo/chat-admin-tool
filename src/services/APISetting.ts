@@ -27,7 +27,7 @@ export interface IAPISetting {
 
 class APISetting implements IAPISetting {
   version = '3.0';
-  host = 'https://fary.chat:8555';
+  host = 'https://api.fary.chat';
   chatServiceName = 'chat-service';
   chatConfigServiceName = 'chat-config-service';
   userServiceName = 'chat-user-service';

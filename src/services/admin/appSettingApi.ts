@@ -1,7 +1,7 @@
 // @ts-ignore
 /* eslint-disable */
 import { request } from '@umijs/max';
-const hostName = 'https://fary.chat:8555/chat-admin-service';
+const hostName = 'https://api.fary.chat/chat-admin-service';
 
 /** getSettingByCategory GET /app/setting */
 export async function getSettingByCategoryUsingGET(

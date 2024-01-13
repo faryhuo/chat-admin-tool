@@ -16,9 +16,7 @@ export interface IUserProflie {
     currentUser: string;
     token: string;
     logout: () => void;
-    sentSMSCode: (phone: string) => Promise<any>;
     signup: (userId: string, password: string, code: string) => Promise<any>;
-    checkUserIfExisting: (userId: string) => Promise<any>;
     openPage: () => void;
     closePage: () => void;
 }
@@ -73,8 +71,9 @@ class UserProflie implements IUserProflie {
             this.getPulicKey().then(() => {
                 const queryUrl = apiSetting.loginUrl;
                 const params = {
-                    "phone": this.userId,
-                    "password": this.encrypt(this.password)
+                    "userId": this.userId,
+                    "password": this.encrypt(this.password),
+                    "type":"phone"
                 };
                 axios({
                     method: "post",
@@ -238,46 +237,12 @@ class UserProflie implements IUserProflie {
                 if (response.data.statusCode === 0) {
                     this.publicKey = response.data.data;
                     resolve(this.publicKey);
+                }else{
+                    reject();
                 }
             });
         });
         return promise;
-    }
-
-    checkUserIfExisting(userId: string) {
-        const queryUrl = apiSetting.checkUserIfExistingUrl;
-        const promise = new Promise((resolve, reject) => {
-            if (this.publicKey) {
-                resolve(this.publicKey);
-            }
-            axios({
-                method: "get",
-                url: queryUrl + "/" + userId,
-                headers: {
-                    'Content-Type': 'application/json;charset=UTF-8'
-                }
-            }
-            ).then((response) => {
-                if (response.data.statusCode === 0) {
-                    resolve(response.data.data);
-                } else {
-                    reject(false)
-                }
-            });
-        });
-        return promise;
-    }
-
-    sentSMSCode(phone: string) {
-        return axios({
-            method: "get",
-            url: apiSetting.sentSmsCodeUrl + phone,
-            headers: {
-                'Content-Type': 'application/json;charset=UTF-8',
-                'token': this.token
-            }
-        }
-        );
     }
 
 

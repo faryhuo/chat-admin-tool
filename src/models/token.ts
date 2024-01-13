@@ -132,7 +132,7 @@ export default () => {
   };
 
   const getAccessToken = (username: string, pwd: string) => {
-    return fetch('http://sg.fary.chat:8112/api_123_chat/api/auth/login', {
+    return fetch('https://api.fary.chat:8112/api_123_chat/api/auth/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
