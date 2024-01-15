@@ -54,7 +54,7 @@ const TokenManagement: React.FC = () => {
     {
       title: 'User name',
       dataIndex: 'userName',
-      sorter: (a, b) => a.userName - b.userName,
+      sorter: (a, b) => a.userName.localeCompare(b.userName),
       filters: getFilterObjs('userName'),
       onFilter: (value: string, record) => record.userName.indexOf(value) === 0,
     },
@@ -63,7 +63,7 @@ const TokenManagement: React.FC = () => {
       dataIndex: 'modelName',
       filters: getFilterObjs('modelName'),
       onFilter: (value: string, record) => record.modelName.indexOf(value) === 0,
-      sorter: (a, b) => a.modelName - b.modelName,
+      sorter: (a, b) => a.modelName.localeCompare(b.modelName),
     },
     {
       title: 'Input Token Usage',

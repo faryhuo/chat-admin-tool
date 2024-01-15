@@ -2,10 +2,11 @@ import TokenDetails from '@/components/TokenDetails';
 import { IToken } from '@/models/token';
 import { PageContainer } from '@ant-design/pro-components';
 import { useModel } from '@umijs/max';
-import { Button, Card, message, Modal, Popconfirm, Space, Table, Tabs, Tag } from 'antd';
+import { Button, Card, message, Modal, Popconfirm, Radio, Space, Table, Tabs, Tag } from 'antd';
 import dayjs from 'dayjs';
 import React, { useEffect, useState } from 'react';
 import './index.css';
+import ButtonGroup from 'antd/es/button/button-group';
 
 const TokenManagement: React.FC = () => {
   const [key, setKey] = useState('gpt');
@@ -23,9 +24,10 @@ const TokenManagement: React.FC = () => {
   } = useModel('token');
   const [messageApi, contextHolder] = message.useMessage();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [apiType, setApiType] = useState("ACCESS-TOKEN");
 
   const getTokens = () => {
-    return tokens.filter((token) => token.channel === key);
+    return tokens.filter((token) => (token.channel === key && token.type===apiType));
   };
 
   const test = (id) => {
@@ -101,14 +103,16 @@ const TokenManagement: React.FC = () => {
     {
       title: 'Model Name',
       dataIndex: 'name',
+      sorter: (a, b) => a.name.localeCompare(b.name)
     },
-    {
-      title: 'Type',
-      dataIndex: 'type',
-    },
+    // {
+    //   title: 'Type',
+    //   dataIndex: 'type',
+    // },
     {
       title: 'Username',
       dataIndex: 'username',
+      sorter: (a, b) => a?.username.localeCompare(b?.username)
     },
     {
       title: 'Password',
@@ -121,6 +125,7 @@ const TokenManagement: React.FC = () => {
     {
       title: 'Expired Date',
       dataIndex: 'expireDate',
+      sorter: (a, b) =>a?.expireDate.localeCompare(b?.expireDate),
       editable: true,
       inputType: 'date',
       render: (_: any, record: IToken) => {
@@ -134,6 +139,7 @@ const TokenManagement: React.FC = () => {
     {
       title: 'Status',
       dataIndex: 'status',
+      sorter: (a, b) => a.status  - b.status,
       render: (_: any, record: IToken) => {
         if (record.status) {
           return <Tag color="success">Success</Tag>;
@@ -147,6 +153,7 @@ const TokenManagement: React.FC = () => {
     {
       title: 'Enable',
       dataIndex: 'enable',
+      sorter: (a, b) => a.enable  - b.enable,
       render: (_: any, record: IToken) => {
         if (record.enable) {
           return <Tag color="success">Enable</Tag>;
@@ -177,7 +184,7 @@ const TokenManagement: React.FC = () => {
                 key={5}
                 title="update token"
                 description="Are you sure to update this token?"
-                onConfirm={() => updateToken(record.id)}
+                onConfirm={() => updateToken(record.id).then(refresh)}
                 okText="Yes"
                 cancelText="No"
               >
@@ -255,7 +262,15 @@ const TokenManagement: React.FC = () => {
               ]}
             ></Tabs>
             <div className="token-list">
-              <Table columns={columns} dataSource={getTokens()} bordered></Table>
+              <div className="api-key-type-group">
+                <ButtonGroup>
+                  <Radio onClick={()=>setApiType("ACCESS-TOKEN")} value="ACCESS-TOKEN" checked={apiType==="ACCESS-TOKEN"}>Access Token</Radio>
+                  <Radio onClick={()=>setApiType("API-KEY")} value="API-KEY" checked={apiType==="API-KEY"}>API Key</Radio>
+                </ButtonGroup>
+              </div>
+              <div className="api-key-list">
+                <Table columns={columns} dataSource={getTokens()} bordered></Table>
+              </div>
             </div>
           </Card>
         </Space>
