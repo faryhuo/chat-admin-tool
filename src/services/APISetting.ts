@@ -65,6 +65,9 @@ class APISetting implements IAPISetting {
   imageSharingUrl = `${this.host}/${this.historyServiceName}/image/all`;
 
   userAdminUrl = `${this.host}/${this.userServiceName}/admin`;
+
+  feedbackList = `${this.host}/${this.userServiceName}/feedback/list`;
+
 }
 const apiSetting = new APISetting();
 export default apiSetting;

@@ -4,8 +4,9 @@ import dayjs from 'dayjs';
 import React, { useState } from 'react';
 type Props = {
   handleCancel: () => void;
+  initialValues?: any;
 };
-const TokenDetails: React.FC<Props> = ({ handleCancel }) => {
+const TokenDetails: React.FC<Props> = ({ handleCancel,initialValues }) => {
   const { addToken, getAccessToken } = useModel('token');
 
   const channelOptions = [
@@ -73,7 +74,7 @@ const TokenDetails: React.FC<Props> = ({ handleCancel }) => {
         labelCol={{ span: 8 }}
         form={form}
         wrapperCol={{ span: 16 }}
-        initialValues={{ channel: 'gpt', type: 'token', name: 'gpt-3.5-turbo' }}
+        initialValues={initialValues?initialValues:{ channel: 'gpt', type: 'token', name: 'gpt-3.5-turbo' }}
         onFinish={onFinish}
       >
         <Form.Item label="Channel" name="channel" rules={[{ required: true }]}>

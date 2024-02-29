@@ -28,4 +28,5 @@ export default {
   'menu.image.usage': '使用情况',
   'menu.system.eureka': 'Eureka',
   'menu.system.analytics': '系统分析',
+  'menu.thirdTool': '第三方工具',
 };

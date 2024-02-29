@@ -32,6 +32,7 @@ export default [
     path: '/dashborad',
     name: 'dashboard',
     icon: 'dashboard',
+    component: './status',
   },
   {
     path: '/user/management',
@@ -106,6 +107,7 @@ export default [
     path: '/feedback',
     name: 'feedback',
     icon: 'MailOutlined',
+    component: './Feedback',
   },
   {
     path: '/system',
@@ -127,20 +129,41 @@ export default [
       {
         path: '/system/sms',
         name: 'sms',
+      }
+    ],
+  },{
+    path: 'thirdTool',
+    name: 'thirdTool',
+    icon: 'ToolOutlined',
+    routes: [
+      {
+        path: 'https://docker.fary.chat:8443',
+        name: 'Docker',
       },
       {
-        path: 'http://fary.chat:9000',
-        name: 'container',
-      },
-      {
-        path: 'https://fary.chat:8888',
-        name: 'eureka',
+        path: 'https://api.fary.chat:2083',
+        name: 'Eureka',
       },
       {
         path: 'https://analytics.google.com/analytics/web',
-        name: 'analytics',
+        name: 'Google Analytics',
       },
-    ],
+      {
+        path: 'https://grafana.fary.chat:8443/',
+        name: 'Grafana',
+      },
+      {
+        path: 'https://uptime.fary.chat:8443/',
+        name: 'Uptime',
+      },
+      {
+        path: 'https://zipkin.fary.chat:8443/',
+        name: 'Zipkin',
+      },
+      {
+        path: 'http://8.138.108.68:8080/',
+        name: 'Nginx Manager',
+      }]
   },
   {
     path: '/',

@@ -25,4 +25,5 @@ export default {
   'menu.system.container': 'Container',
   'menu.system.eureka': 'Eureka',
   'menu.system.analytics': 'Analytics',
+  'menu.thirdTool': 'Third-party tools',
 };

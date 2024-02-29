@@ -57,7 +57,52 @@ const TokenManagement: React.FC = () => {
           } else {
             updateStatus(false, id);
           }
-          messageApi.error('Test success');
+          messageApi.success('Test success');
+        })
+        .catch(() => {
+          updateStatus(false, id);
+          messageApi.error('Test fail');
+        });
+    });
+  };
+
+  const testAllEnable = () => {
+    getTokens().forEach((token) => {
+      if(!token.enable){
+        return;
+      }
+      const id = token.id;
+      testToken(id)
+        .then((response) => {
+          if (response.data) {
+            updateStatus(true, id);
+          } else {
+            updateStatus(false, id);
+          }
+          messageApi.success('Test success');
+        })
+        .catch(() => {
+          updateStatus(false, id);
+          messageApi.error('Test fail');
+        });
+    });
+  };
+
+  
+  const testAllDisabled = () => {
+    getTokens().forEach((token) => {
+      if(token.enable){
+        return;
+      }
+      const id = token.id;
+      testToken(id)
+        .then((response) => {
+          if (response.data) {
+            updateStatus(true, id);
+          } else {
+            updateStatus(false, id);
+          }
+          messageApi.success('Test success');
         })
         .catch(() => {
           updateStatus(false, id);
@@ -95,6 +140,31 @@ const TokenManagement: React.FC = () => {
     });
   };
 
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
+  const [tokenDetail,setTokenDetail] = useState<any>(null);
+
+  const addToken=()=>{
+    setTokenDetail(null);
+    showModal();
+  }
+
+  const editToken=(id:number)=>{
+    fetch('https://gateway.fary.chat/chat-service/token/'+id,{
+      headers:{
+        token:localStorage["admin-user-token"]
+      }
+    })
+    setTokenDetail(null);
+    showModal();
+  }
+
   const columns = [
     // {
     //   title: 'Channel',
@@ -125,7 +195,7 @@ const TokenManagement: React.FC = () => {
     {
       title: 'Expired Date',
       dataIndex: 'expireDate',
-      sorter: (a, b) =>a?.expireDate.localeCompare(b?.expireDate),
+      sorter: (a, b) =>a.expireDate?a?.expireDate.localeCompare(b?.expireDate):1,
       editable: true,
       inputType: 'date',
       render: (_: any, record: IToken) => {
@@ -179,7 +249,7 @@ const TokenManagement: React.FC = () => {
               Test
             </Button>
 
-            {record.type === 'ACCESS-TOKEN' && (
+            {record.type === 'ACCESS-TOKEN' && record.name==='gpt-3.5-turbo' &&(
               <Popconfirm
                 key={5}
                 title="update token"
@@ -191,6 +261,7 @@ const TokenManagement: React.FC = () => {
                 <Button className="action-btn">Update</Button>
               </Popconfirm>
             )}
+            <Button key={6} className="action-btn" onClick={()=>editToken(record.id)}>Edit</Button>
             <Button
               key={2}
               className="action-btn"
@@ -216,26 +287,21 @@ const TokenManagement: React.FC = () => {
     },
   ];
 
+
   useEffect(() => {
     fetchToken();
   }, []);
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
 
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
   return (
     <PageContainer>
       <div className="token-management-page">
         <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
           <Card>
             <Modal title="Add Token" open={isModalOpen} onCancel={handleCancel} footer={false}>
-              <TokenDetails handleCancel={handleCancel}></TokenDetails>
+              <TokenDetails initialValues={tokenDetail} handleCancel={handleCancel}></TokenDetails>
             </Modal>
             <div className="action-buttons">
-              <Button type="primary" className="action-btn" onClick={showModal}>
+              <Button type="primary" className="action-btn" onClick={addToken}>
                 Add Token
               </Button>
               <Button type="primary" className="action-btn" onClick={refresh}>
@@ -243,6 +309,12 @@ const TokenManagement: React.FC = () => {
               </Button>
               <Button type="primary" className="action-btn" onClick={() => testAll()}>
                 Test All
+              </Button>
+              <Button type="primary" className="action-btn" onClick={() => testAllEnable()}>
+                Test All Enable
+              </Button>
+              <Button type="primary" className="action-btn" onClick={() => testAllDisabled()}>
+                Test All Disabled
               </Button>
             </div>
           </Card>
